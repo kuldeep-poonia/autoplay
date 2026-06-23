@@ -15,8 +15,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const fields = [
         'name', 'email', 'phone', 'city', 'linkedinUrl', 'portfolioUrl',
         'degree', 'college', 'gradYear', 'cgpa',
-        'totalYears', 'currentRole', 'currentCompany', 'noticePeriod',
-        'primarySkills', 'secondarySkills', 
+        'totalYears', 'currentRole', 'currentCompany', 'isOnNoticePeriod', 'noticePeriod',
+        'primarySkills', 'secondarySkills', 'coverLetter', 'nationality',
         'workMode', 'prefLocations', 'expectedCTC',
         'ansJobChange', 'ansAchievement', 'ansGoals', 'ansStrengths'
     ];

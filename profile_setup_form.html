@@ -58,6 +58,10 @@
                         <input type="text" id="city" name="city" class="form-input">
                     </div>
                     <div class="form-group">
+                        <label class="form-label" for="nationality">Nationality</label>
+                        <input type="text" id="nationality" name="nationality" class="form-input">
+                    </div>
+                    <div class="form-group">
                         <label class="form-label" for="linkedinUrl">LinkedIn URL</label>
                         <input type="url" id="linkedinUrl" name="linkedinUrl" class="form-input">
                     </div>
@@ -108,6 +112,14 @@
                         <input type="text" id="currentCompany" name="currentCompany" class="form-input">
                     </div>
                     <div class="form-group">
+                        <label class="form-label" for="isOnNoticePeriod">Currently on Notice Period?</label>
+                        <select id="isOnNoticePeriod" name="isOnNoticePeriod" class="form-input">
+                            <option value="">Select</option>
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label class="form-label" for="noticePeriod">Notice Period (Days)</label>
                         <input type="number" id="noticePeriod" name="noticePeriod" class="form-input">
                     </div>
@@ -125,6 +137,10 @@
                     <div class="form-group">
                         <label class="form-label" for="secondarySkills">Secondary Skills / Certifications</label>
                         <input type="text" id="secondarySkills" name="secondarySkills" class="form-input">
+                    </div>
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label class="form-label" for="coverLetter">Cover Letter</label>
+                        <textarea id="coverLetter" name="coverLetter" class="form-input" rows="4"></textarea>
                     </div>
                     <div class="form-group" style="grid-column: span 2;">
                         <label class="form-label" for="resumeFile">Upload Resume (PDF)</label>
