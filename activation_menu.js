@@ -38,7 +38,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Setup open links
     const openSetup = () => chrome.tabs.create({ url: chrome.runtime.getURL("profile_setup_form.html") });
     const openHistory = () => chrome.tabs.create({ url: chrome.runtime.getURL("application_history.html") });
-    
+
+    // ── Scrape Jobs handler (NEW) ──────────────────────────────────────────
+    // Opens job_panel.html in a new tab — user clicks Scrape there
+    const openScrapePanel = () => chrome.tabs.create({ url: chrome.runtime.getURL("job_panel.html") });
+
+    document.getElementById('btnScrape')?.addEventListener('click', openScrapePanel);
+    document.getElementById('btnScrapeDet')?.addEventListener('click', openScrapePanel);
+    // ──────────────────────────────────────────────────────────────────────
+
     document.getElementById('btnOpenSetup').addEventListener('click', openSetup);
     document.getElementById('btnOpenSetupDet').addEventListener('click', openSetup);
     document.getElementById('btnOpenHistory').addEventListener('click', openHistory);
@@ -84,7 +92,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('btnYesHelp').addEventListener('click', function() { activateAutoFill(this); });
 
     document.getElementById('btnNoHelp').addEventListener('click', async () => {
-        // Silence for this tab
         silencedTabs[tab.id] = true;
         await new Promise(resolve => chrome.storage.local.set({ silencedTabs }, resolve));
         window.close();

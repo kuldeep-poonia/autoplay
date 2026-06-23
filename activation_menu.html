@@ -42,6 +42,42 @@
             width: 100%;
             margin-bottom: 0.75rem;
         }
+
+        /* Scrape Jobs button — orange to differentiate from autofill */
+        .btn-scrape {
+            width: 100%;
+            margin-bottom: 0.75rem;
+            padding: 0.6rem 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            background: linear-gradient(135deg, #F59E0B, #D97706);
+            color: #fff;
+            transition: opacity 0.15s;
+        }
+        .btn-scrape:hover { opacity: 0.88; }
+
+        /* Divider with label */
+        .section-divider {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 4px 0 12px;
+            color: var(--text-secondary);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .section-divider::before,
+        .section-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border-color);
+        }
+
         .footer {
             padding: 0.75rem 1rem;
             border-top: 1px solid var(--border-color);
@@ -54,7 +90,7 @@
 <body>
     <div class="popup-header">
         <h2>AutoApply</h2>
-        <span id="versionLabel">v1.0.0</span>
+        <span id="versionLabel">v1.1.0</span>
     </div>
 
     <div class="popup-content">
@@ -62,32 +98,60 @@
             Loading profile status...
         </div>
 
+        <!-- ── Default state ── -->
         <div id="defaultState">
+
+            <!-- Scrape section -->
+            <div class="section-divider">Find Jobs</div>
+            <button class="btn-scrape" id="btnScrape">
+                🔍 Scrape Jobs from This Page
+            </button>
+
+            <!-- Autofill section -->
+            <div class="section-divider">Autofill</div>
             <button class="btn btn-primary action-button" id="btnActivate">
                 Activate on this page
             </button>
+
+            <!-- Settings section -->
+            <div class="section-divider">Settings</div>
             <button class="btn btn-secondary action-button" id="btnOpenSetup">
                 Setup Profile
             </button>
-            <button class="btn btn-secondary action-button" id="btnOpenHistory" style="margin-top: 8px; background: rgba(255,255,255,0.05);">
+            <button class="btn btn-secondary action-button" id="btnOpenHistory"
+                style="margin-top: 8px; background: rgba(255,255,255,0.05);">
                 Application History
             </button>
+
         </div>
 
+        <!-- ── Detected state (job form found on page) ── -->
         <div id="detectedState" style="display: none; text-align: center;">
+
             <h3 style="color: #3B82F6; margin-top: 0;">Job form detected!</h3>
             <p style="font-size: 14px; margin-bottom: 16px;">Want help filling this out?</p>
             <div style="display: flex; gap: 10px;">
-                <button class="btn btn-primary action-button" id="btnYesHelp" style="margin: 0;">Yes, Autofill</button>
-                <button class="btn btn-secondary action-button" id="btnNoHelp" style="margin: 0; background: #334155;">No, thanks</button>
+                <button class="btn btn-primary action-button" id="btnYesHelp"
+                    style="margin: 0;">Yes, Autofill</button>
+                <button class="btn btn-secondary action-button" id="btnNoHelp"
+                    style="margin: 0; background: #334155;">No, thanks</button>
             </div>
+
             <hr style="border-color: #334155; margin: 16px 0;">
+
+            <!-- Scrape in detected state too -->
+            <button class="btn-scrape" id="btnScrapeDet">
+                🔍 Scrape Jobs from This Page
+            </button>
+
             <button class="btn btn-secondary action-button" id="btnOpenSetupDet">
                 Setup Profile
             </button>
-            <button class="btn btn-secondary action-button" id="btnOpenHistoryDet" style="margin-top: 8px; background: rgba(255,255,255,0.05);">
+            <button class="btn btn-secondary action-button" id="btnOpenHistoryDet"
+                style="margin-top: 8px; background: rgba(255,255,255,0.05);">
                 Application History
             </button>
+
         </div>
     </div>
 
