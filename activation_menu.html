@@ -62,15 +62,33 @@
             Loading profile status...
         </div>
 
-        <button class="btn btn-primary action-button" id="btnActivate">
-            Activate on this page
-        </button>
-        <button class="btn btn-secondary action-button" id="btnOpenSetup">
-            Setup Profile
-        </button>
-        <button class="btn btn-secondary action-button" id="btnOpenHistory" style="margin-top: 8px; background: rgba(255,255,255,0.05);">
-            Application History
-        </button>
+        <div id="defaultState">
+            <button class="btn btn-primary action-button" id="btnActivate">
+                Activate on this page
+            </button>
+            <button class="btn btn-secondary action-button" id="btnOpenSetup">
+                Setup Profile
+            </button>
+            <button class="btn btn-secondary action-button" id="btnOpenHistory" style="margin-top: 8px; background: rgba(255,255,255,0.05);">
+                Application History
+            </button>
+        </div>
+
+        <div id="detectedState" style="display: none; text-align: center;">
+            <h3 style="color: #3B82F6; margin-top: 0;">Job form detected!</h3>
+            <p style="font-size: 14px; margin-bottom: 16px;">Want help filling this out?</p>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn btn-primary action-button" id="btnYesHelp" style="margin: 0;">Yes, Autofill</button>
+                <button class="btn btn-secondary action-button" id="btnNoHelp" style="margin: 0; background: #334155;">No, thanks</button>
+            </div>
+            <hr style="border-color: #334155; margin: 16px 0;">
+            <button class="btn btn-secondary action-button" id="btnOpenSetupDet">
+                Setup Profile
+            </button>
+            <button class="btn btn-secondary action-button" id="btnOpenHistoryDet" style="margin-top: 8px; background: rgba(255,255,255,0.05);">
+                Application History
+            </button>
+        </div>
     </div>
 
     <div class="footer">

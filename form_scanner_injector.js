@@ -137,27 +137,34 @@ function injectAiButton(textarea, profile, apiKey) {
         e.preventDefault();
         const questionText = FormFieldDetector._getAssociatedLabelText(textarea) || textarea.placeholder || "Why are you a good fit for this role?";
         
-        btn.innerHTML = '⏳ Generating...';
-        btn.disabled = true;
+        const attemptGeneration = async () => {
+            btn.innerHTML = '⏳ Generating...';
+            btn.disabled = true;
+            try {
+                const answer = await GeminiApiClient.generateAnswer(questionText, profile, apiKey);
+                showAiApprovalModal(answer, (approvedText) => {
+                    setNativeValue(textarea, approvedText);
+                    textarea.style.border = "2px solid #4F46E5";
+                }, attemptGeneration);
+            } catch (err) {
+                const fallback = [profile.ansJobChange, profile.ansAchievement, profile.ansGoals, profile.ansStrengths].filter(Boolean).join('\n\n') || "Could not generate AI answer. Please fill manually.";
+                showAiApprovalModal("API Error: " + err.message + "\n\nFallback Common Answers:\n" + fallback, (approvedText) => {
+                    setNativeValue(textarea, approvedText);
+                    textarea.style.border = "2px solid #4F46E5";
+                }, attemptGeneration);
+            } finally {
+                btn.innerHTML = '✨ AI Answer';
+                btn.disabled = false;
+            }
+        };
 
-        try {
-            const answer = await GeminiApiClient.generateAnswer(questionText, profile, apiKey);
-            showAiApprovalModal(answer, (approvedText) => {
-                setNativeValue(textarea, approvedText);
-                textarea.style.border = "2px solid #4F46E5";
-            });
-        } catch (err) {
-            alert(err.message);
-        } finally {
-            btn.innerHTML = '✨ AI Answer';
-            btn.disabled = false;
-        }
+        await attemptGeneration();
     };
 
     wrapper.appendChild(btn);
 }
 
-function showAiApprovalModal(generatedText, onApprove) {
+function showAiApprovalModal(generatedText, onApprove, onRegenerate) {
     const modal = document.createElement('div');
     modal.style.cssText = `
         position: fixed;
@@ -205,6 +212,14 @@ function showAiApprovalModal(generatedText, onApprove) {
     const actions = document.createElement('div');
     actions.style.cssText = 'display: flex; justify-content: flex-end; gap: 12px;';
 
+    const regenerateBtn = document.createElement('button');
+    regenerateBtn.innerText = 'Regenerate';
+    regenerateBtn.style.cssText = 'background: #334155; color: #F8FAFC; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; margin-right: auto;';
+    regenerateBtn.onclick = () => {
+        modal.remove();
+        if (onRegenerate) onRegenerate();
+    };
+
     const cancelBtn = document.createElement('button');
     cancelBtn.innerText = 'Cancel';
     cancelBtn.style.cssText = 'background: transparent; color: #F8FAFC; border: 1px solid #334155; padding: 8px 16px; border-radius: 6px; cursor: pointer;';
@@ -218,6 +233,7 @@ function showAiApprovalModal(generatedText, onApprove) {
         modal.remove();
     };
 
+    actions.appendChild(regenerateBtn);
     actions.appendChild(cancelBtn);
     actions.appendChild(approveBtn);
 
@@ -284,9 +300,16 @@ document.addEventListener('submit', async (e) => {
         const storageResult = await new Promise(resolve => chrome.storage.local.get(['history'], resolve));
         const history = storageResult.history || [];
         
+        const isDuplicate = history.some(item => item.company === company && item.role === role);
+        if (isDuplicate) {
+            alert("AutoApply Warning: You have already applied for " + role + " at " + company + " previously.");
+        }
+
         history.push({
+            id: Date.now().toString(),
             company: company,
             role: role,
+            status: 'Applied',
             date: new Date().toISOString()
         });
         

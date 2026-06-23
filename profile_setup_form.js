@@ -17,7 +17,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         'degree', 'college', 'gradYear', 'cgpa',
         'totalYears', 'currentRole', 'currentCompany', 'noticePeriod',
         'primarySkills', 'secondarySkills', 
-        'workMode', 'prefLocations', 'expectedCTC'
+        'workMode', 'prefLocations', 'expectedCTC',
+        'ansJobChange', 'ansAchievement', 'ansGoals', 'ansStrengths'
     ];
 
     // Load existing profile and settings

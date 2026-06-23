@@ -25,11 +25,12 @@ function isSupportedUrl(url) {
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     if (changeInfo.status === 'complete' && tab.url) {
-        if (isSupportedUrl(tab.url)) {
-            chrome.action.setBadgeText({ tabId: tabId, text: "READY" });
-            chrome.action.setBadgeBackgroundColor({ tabId: tabId, color: "#10B981" });
+        const isSupported = isSupportedUrl(tab.url);
+        if (isSupported) {
+            chrome.action.setBadgeText({ text: "•", tabId: tabId });
+            chrome.action.setBadgeBackgroundColor({ color: "#3B82F6", tabId: tabId }); // Blue dot
         } else {
-            chrome.action.setBadgeText({ tabId: tabId, text: "" });
+            chrome.action.setBadgeText({ text: "", tabId: tabId });
         }
     }
 });

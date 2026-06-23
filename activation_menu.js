@@ -3,9 +3,9 @@
  */
 
 document.addEventListener('DOMContentLoaded', async () => {
-    const btnOpenSetup = document.getElementById('btnOpenSetup');
-    const btnActivate = document.getElementById('btnActivate');
     const profileStatus = document.getElementById('profileStatus');
+    const defaultState = document.getElementById('defaultState');
+    const detectedState = document.getElementById('detectedState');
 
     // 1. Calculate and show profile completion status
     try {
@@ -13,7 +13,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         let filledFields = 0;
         let totalFields = 0;
 
-        // Simple count of top-level string fields
         for (const [key, value] of Object.entries(profile)) {
             if (typeof value === 'string') {
                 totalFields++;
@@ -23,7 +22,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         }
 
-        if (totalFields === 0) totalFields = 1; // Prevent division by zero
+        if (totalFields === 0) totalFields = 1;
         const completionPercentage = Math.round((filledFields / totalFields) * 100);
 
         if (completionPercentage === 0) {
@@ -31,42 +30,38 @@ document.addEventListener('DOMContentLoaded', async () => {
         } else {
             profileStatus.innerHTML = `Profile completion: <strong>${completionPercentage}%</strong>`;
         }
-
     } catch (error) {
         console.error("Error reading profile data:", error);
         profileStatus.innerHTML = `Error loading profile.`;
     }
 
-    // 2. Open Profile Setup page in a new full tab
-    btnOpenSetup.addEventListener('click', () => {
-        chrome.tabs.create({ url: chrome.runtime.getURL("profile_setup_form.html") });
-    });
+    // Setup open links
+    const openSetup = () => chrome.tabs.create({ url: chrome.runtime.getURL("profile_setup_form.html") });
+    const openHistory = () => chrome.tabs.create({ url: chrome.runtime.getURL("application_history.html") });
+    
+    document.getElementById('btnOpenSetup').addEventListener('click', openSetup);
+    document.getElementById('btnOpenSetupDet').addEventListener('click', openSetup);
+    document.getElementById('btnOpenHistory').addEventListener('click', openHistory);
+    document.getElementById('btnOpenHistoryDet').addEventListener('click', openHistory);
 
-    const btnOpenHistory = document.getElementById('btnOpenHistory');
-    if (btnOpenHistory) {
-        btnOpenHistory.addEventListener('click', () => {
-            chrome.tabs.create({ url: chrome.runtime.getURL("application_history.html") });
-        });
+    // 2. Check current tab for URL support
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    const isSupported = tab && tab.url && /(greenhouse\.io|lever\.co|workday\.com|boards\.ashbyhq\.com|jobs\.ashbyhq\.com|myworkdayjobs\.com|bamboohr\.com|applytojob\.com)/i.test(tab.url);
+
+    const storageResult = await new Promise(resolve => chrome.storage.local.get(['silencedTabs'], resolve));
+    const silencedTabs = storageResult.silencedTabs || {};
+
+    if (isSupported && !silencedTabs[tab.id]) {
+        defaultState.style.display = 'none';
+        detectedState.style.display = 'block';
     }
 
-    // 3. Activate auto-fill on current tab (Phase 2 placeholder)
-    btnActivate.addEventListener('click', async () => {
-        btnActivate.innerText = "Activating...";
-        btnActivate.disabled = true;
+    // 3. Activation Logic
+    const activateAutoFill = async (btn) => {
+        btn.innerText = "Activating...";
+        btn.disabled = true;
 
         try {
-            // Get the current active tab
-            const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-            
-            if (!tab) {
-                throw new Error("No active tab found.");
-            }
-
-            // In Phase 2, this will inject the content script.
-            // For now, we just simulate activation.
-            console.log(`Activation triggered for tab: ${tab.url}`);
-            
-            // Inject dependencies first, then the scanner
             await chrome.scripting.executeScript({
                 target: { tabId: tab.id },
                 files: ['form_field_detector.js', 'gemini_api_client.js']
@@ -76,13 +71,22 @@ document.addEventListener('DOMContentLoaded', async () => {
                 files: ['form_scanner_injector.js']
             });
 
-            btnActivate.innerText = "Activated!";
+            btn.innerText = "Activated!";
             setTimeout(() => window.close(), 1500);
-
         } catch (error) {
             console.error("Activation failed:", error);
-            btnActivate.innerText = "Activation Failed";
-            btnActivate.disabled = false;
+            btn.innerText = "Activation Failed";
+            btn.disabled = false;
         }
+    };
+
+    document.getElementById('btnActivate').addEventListener('click', function() { activateAutoFill(this); });
+    document.getElementById('btnYesHelp').addEventListener('click', function() { activateAutoFill(this); });
+
+    document.getElementById('btnNoHelp').addEventListener('click', async () => {
+        // Silence for this tab
+        silencedTabs[tab.id] = true;
+        await new Promise(resolve => chrome.storage.local.set({ silencedTabs }, resolve));
+        window.close();
     });
 });
