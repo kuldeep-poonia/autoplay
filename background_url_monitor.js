@@ -12,6 +12,12 @@ const SUPPORTED_DOMAINS = [
     /linkedin\.com\/jobs/i
 ];
 
+chrome.runtime.onInstalled.addListener((details) => {
+    if (details.reason === chrome.runtime.OnInstalledReason.INSTALL) {
+        chrome.tabs.create({ url: chrome.runtime.getURL("profile_setup_form.html") });
+    }
+});
+
 function isSupportedUrl(url) {
     if (!url) return false;
     return SUPPORTED_DOMAINS.some(regex => regex.test(url));
