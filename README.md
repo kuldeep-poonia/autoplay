@@ -4,8 +4,6 @@ AutoApply is a completely local, AI-powered Chrome Extension designed to automat
 
 **Zero Data Collection. 100% Local Storage.**
 
-![Profile Setup Demo](assets/demo.webp)
-
 ---
 
 ## 🌟 Features
