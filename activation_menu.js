@@ -59,10 +59,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             // For now, we just simulate activation.
             console.log(`Activation triggered for tab: ${tab.url}`);
             
-            // Inject dependency first, then the scanner
+            // Inject dependencies first, then the scanner
             await chrome.scripting.executeScript({
                 target: { tabId: tab.id },
-                files: ['form_field_detector.js']
+                files: ['form_field_detector.js', 'gemini_api_client.js']
             });
             await chrome.scripting.executeScript({
                 target: { tabId: tab.id },
