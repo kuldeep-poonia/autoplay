@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoApply Menu</title>
+    <link rel="stylesheet" href="theme_styles.css">
+    <style>
+        body {
+            width: 320px;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+        }
+        .popup-header {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .popup-header h2 {
+            margin: 0;
+            font-size: 1.125rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .popup-content {
+            padding: 1.5rem 1rem;
+            text-align: center;
+        }
+        .profile-status {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+        .profile-status strong {
+            color: var(--text-primary);
+        }
+        .action-button {
+            width: 100%;
+            margin-bottom: 0.75rem;
+        }
+        .footer {
+            padding: 0.75rem 1rem;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="popup-header">
+        <h2>AutoApply</h2>
+        <span id="versionLabel">v1.0.0</span>
+    </div>
+
+    <div class="popup-content">
+        <div class="profile-status" id="profileStatus">
+            Loading profile status...
+        </div>
+
+        <button class="btn btn-primary action-button" id="btnActivate">
+            Activate on this page
+        </button>
+        <button class="btn btn-secondary action-button" id="btnOpenSetup">
+            Setup Profile
+        </button>
+    </div>
+
+    <div class="footer">
+        Your data never leaves your browser.
+    </div>
+
+    <script src="local_data_store.js"></script>
+    <script src="activation_menu.js"></script>
+</body>
+</html>
