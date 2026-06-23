@@ -55,8 +55,30 @@ async function executeAutoFill() {
         inputs.forEach(input => {
             const detection = FormFieldDetector.identifyField(input);
             
+            // 0. Resume File Upload
+            if (input.type === 'file' && profile.resumeData && (input.accept.includes('pdf') || detection.confidence >= 30)) {
+                try {
+                    const arr = profile.resumeData.split(',');
+                    const mime = arr[0].match(/:(.*?);/)[1];
+                    const bstr = atob(arr[1]);
+                    let n = bstr.length;
+                    const u8arr = new Uint8Array(n);
+                    while(n--){
+                        u8arr[n] = bstr.charCodeAt(n);
+                    }
+                    const file = new File([u8arr], "resume.pdf", {type: mime});
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(file);
+                    input.files = dataTransfer.files;
+                    input.dispatchEvent(new Event('change', { bubbles: true }));
+                    filledCount++;
+                    input.style.border = "2px solid #10B981";
+                } catch(e) {
+                    console.error("Failed to inject resume file", e);
+                }
+            }
             // 1. Standard Field Autofill
-            if (detection.confidence >= 30 && detection.profileKey && profile[detection.profileKey]) {
+            else if (detection.confidence >= 30 && detection.profileKey && profile[detection.profileKey]) {
                 setNativeValue(input, profile[detection.profileKey]);
                 filledCount++;
                 input.style.border = "2px solid #10B981";

@@ -17,10 +17,20 @@ class FormFieldDetector {
         phone: /(phone|mobile|tel|contact.?number|cell)/i,
         city: /(city|location|town|address)/i,
         linkedinUrl: /(linkedin|linked.?in)/i,
+        portfolioUrl: /(portfolio|website|github|personal.?site)/i,
+        degree: /(degree|qualification|highest.?education)/i,
+        college: /(college|university|institute|school)/i,
+        gradYear: /(graduation.?year|passing.?year|year.?of.?passing)/i,
+        cgpa: /(cgpa|gpa|percentage|grade|marks)/i,
         totalYears: /(experience|years|total.?exp)/i,
         currentRole: /(current.?role|job.?title|designation)/i,
         currentCompany: /(current.?company|employer|organization)/i,
-        noticePeriod: /(notice.?period|availability)/i
+        noticePeriod: /(notice.?period|availability)/i,
+        primarySkills: /(skills|primary.?skills|core.?skills|technologies)/i,
+        secondarySkills: /(secondary.?skills|certifications|other.?skills)/i,
+        workMode: /(work.?mode|remote|hybrid|onsite|on.?site)/i,
+        prefLocations: /(preferred.?location|willing.?to.?relocate)/i,
+        expectedCTC: /(expected.?ctc|expected.?salary|compensation)/i
     };
 
     /**

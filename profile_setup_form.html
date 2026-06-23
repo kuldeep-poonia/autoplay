@@ -6,9 +6,7 @@
     <title>AutoApply - Profile Setup</title>
     <link rel="stylesheet" href="theme_styles.css">
     <style>
-        .section-card {
-            margin-bottom: 2rem;
-        }
+        .section-card { margin-bottom: 2rem; }
         .section-title {
             margin-bottom: 1rem;
             padding-bottom: 0.5rem;
@@ -20,38 +18,23 @@
             gap: 1.5rem;
         }
         .actions-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            padding: 1rem 2rem;
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            justify-content: flex-end;
-            gap: 1rem;
-            z-index: 100;
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: var(--glass-bg); backdrop-filter: blur(12px);
+            padding: 1rem 2rem; border-top: 1px solid var(--border-color);
+            display: flex; justify-content: flex-end; gap: 1rem; z-index: 100;
         }
         .toast {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 1rem;
-            border-radius: 8px;
-            background-color: var(--secondary-color);
-            color: white;
-            opacity: 0;
-            transition: opacity 0.3s;
-            pointer-events: none;
-            z-index: 1000;
+            position: fixed; top: 20px; right: 20px; padding: 1rem;
+            border-radius: 8px; background-color: var(--secondary-color);
+            color: white; opacity: 0; transition: opacity 0.3s;
+            pointer-events: none; z-index: 1000;
         }
     </style>
 </head>
 <body>
     <div class="container animate-fade-in" style="padding-bottom: 100px;">
         <h1>Complete Your AutoApply Profile</h1>
-        <p style="color: var(--text-secondary); margin-bottom: 2rem;">All data is saved locally on your device. AutoApply never uploads your profile to any server.</p>
+        <p style="color: var(--text-secondary); margin-bottom: 2rem;">All data is saved locally on your device.</p>
 
         <form id="profileForm">
             <!-- Personal Info -->
@@ -77,6 +60,33 @@
                     <div class="form-group">
                         <label class="form-label" for="linkedinUrl">LinkedIn URL</label>
                         <input type="url" id="linkedinUrl" name="linkedinUrl" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="portfolioUrl">Portfolio URL</label>
+                        <input type="url" id="portfolioUrl" name="portfolioUrl" class="form-input">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Education -->
+            <div class="glass-card section-card">
+                <h2 class="section-title">Education</h2>
+                <div class="grid-2-col">
+                    <div class="form-group">
+                        <label class="form-label" for="degree">Highest Degree</label>
+                        <input type="text" id="degree" name="degree" class="form-input" placeholder="e.g. B.Tech Computer Science">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="college">College/University</label>
+                        <input type="text" id="college" name="college" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="gradYear">Year of Graduation</label>
+                        <input type="number" id="gradYear" name="gradYear" class="form-input" min="1990" max="2030">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="cgpa">CGPA / Percentage</label>
+                        <input type="text" id="cgpa" name="cgpa" class="form-input">
                     </div>
                 </div>
             </div>
@@ -104,6 +114,51 @@
                 </div>
             </div>
 
+            <!-- Skills & Resume -->
+            <div class="glass-card section-card">
+                <h2 class="section-title">Skills & Resume</h2>
+                <div class="grid-2-col">
+                    <div class="form-group">
+                        <label class="form-label" for="primarySkills">Primary Skills (comma separated)</label>
+                        <input type="text" id="primarySkills" name="primarySkills" class="form-input" placeholder="React, Node.js, Python">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="secondarySkills">Secondary Skills / Certifications</label>
+                        <input type="text" id="secondarySkills" name="secondarySkills" class="form-input">
+                    </div>
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label class="form-label" for="resumeFile">Upload Resume (PDF)</label>
+                        <input type="file" id="resumeFile" accept=".pdf" class="form-input" style="padding: 10px;">
+                        <small style="color: var(--text-secondary);">Will be converted to secure Base64 for local auto-fill</small>
+                        <div id="resumeStatus" style="color: var(--primary-color); margin-top: 5px; font-weight: 500;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preferences -->
+            <div class="glass-card section-card">
+                <h2 class="section-title">Preferences</h2>
+                <div class="grid-2-col">
+                    <div class="form-group">
+                        <label class="form-label" for="workMode">Preferred Work Mode</label>
+                        <select id="workMode" name="workMode" class="form-input">
+                            <option value="">Any</option>
+                            <option value="Remote">Remote</option>
+                            <option value="Hybrid">Hybrid</option>
+                            <option value="On-site">On-site</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="prefLocations">Preferred Locations</label>
+                        <input type="text" id="prefLocations" name="prefLocations" class="form-input" placeholder="Bangalore, Pune">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="expectedCTC">Expected CTC (LPA)</label>
+                        <input type="number" id="expectedCTC" name="expectedCTC" class="form-input">
+                    </div>
+                </div>
+            </div>
+
             <!-- Settings -->
             <div class="glass-card section-card">
                 <h2 class="section-title">Settings & AI</h2>
@@ -121,7 +176,6 @@
 
     <div id="toast" class="toast">Profile saved successfully!</div>
 
-    <!-- Scripts -->
     <script src="local_data_store.js"></script>
     <script src="profile_setup_form.js"></script>
 </body>
