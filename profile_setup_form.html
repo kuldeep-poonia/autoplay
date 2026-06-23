@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoApply - Profile Setup</title>
+    <link rel="stylesheet" href="theme_styles.css">
+    <style>
+        .section-card {
+            margin-bottom: 2rem;
+        }
+        .section-title {
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .grid-2-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        .actions-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            padding: 1rem 2rem;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            z-index: 100;
+        }
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem;
+            border-radius: 8px;
+            background-color: var(--secondary-color);
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div class="container animate-fade-in" style="padding-bottom: 100px;">
+        <h1>Complete Your AutoApply Profile</h1>
+        <p style="color: var(--text-secondary); margin-bottom: 2rem;">All data is saved locally on your device. AutoApply never uploads your profile to any server.</p>
+
+        <form id="profileForm">
+            <!-- Personal Info -->
+            <div class="glass-card section-card">
+                <h2 class="section-title">Personal Information</h2>
+                <div class="grid-2-col">
+                    <div class="form-group">
+                        <label class="form-label" for="name">Full Name</label>
+                        <input type="text" id="name" name="name" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="email">Email</label>
+                        <input type="email" id="email" name="email" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="phone">Phone</label>
+                        <input type="tel" id="phone" name="phone" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="city">City</label>
+                        <input type="text" id="city" name="city" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="linkedinUrl">LinkedIn URL</label>
+                        <input type="url" id="linkedinUrl" name="linkedinUrl" class="form-input">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Experience -->
+            <div class="glass-card section-card">
+                <h2 class="section-title">Experience</h2>
+                <div class="grid-2-col">
+                    <div class="form-group">
+                        <label class="form-label" for="totalYears">Total Years of Experience</label>
+                        <input type="number" id="totalYears" name="totalYears" step="0.5" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="currentRole">Current Role</label>
+                        <input type="text" id="currentRole" name="currentRole" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="currentCompany">Current Company</label>
+                        <input type="text" id="currentCompany" name="currentCompany" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="noticePeriod">Notice Period (Days)</label>
+                        <input type="number" id="noticePeriod" name="noticePeriod" class="form-input">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings -->
+            <div class="glass-card section-card">
+                <h2 class="section-title">Settings & AI</h2>
+                <div class="form-group">
+                    <label class="form-label" for="geminiApiKey">Google Gemini Flash API Key (Optional)</label>
+                    <input type="password" id="geminiApiKey" name="geminiApiKey" class="form-input" placeholder="AI answers disabled without key">
+                </div>
+            </div>
+        </form>
+    </div>
+    
+    <div class="actions-bar">
+        <button type="submit" form="profileForm" class="btn btn-primary" id="btnSave">Save Profile</button>
+    </div>
+
+    <div id="toast" class="toast">Profile saved successfully!</div>
+
+    <!-- Scripts -->
+    <script src="local_data_store.js"></script>
+    <script src="profile_setup_form.js"></script>
+</body>
+</html>
