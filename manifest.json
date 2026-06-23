@@ -1,38 +1,49 @@
 {
   "manifest_version": 3,
   "name": "AutoApply",
-  "version": "1.0.0",
-  "description": "Universal Job Application Chrome Extension",
+  "version": "1.1.0",
+  "description": "Universal Job Application Chrome Extension — Auto-fill, Job Scraper & AI Answers",
+
   "permissions": [
     "activeTab",
     "storage",
-    "scripting"
+    "scripting",
+    "tabs"
   ],
+
   "host_permissions": [
-    "*://*.linkedin.com/*",
-    "*://*.naukri.com/*",
-    "*://*.wellfound.com/*",
-    "*://*.internshala.com/*",
-    "*://*.shine.com/*",
-    "*://*.greenhouse.io/*",
-    "*://*.lever.co/*",
-    "*://*.myworkdayjobs.com/*",
-    "*://*.icims.com/*"
+    "<all_urls>"
   ],
+
   "background": {
     "service_worker": "background_url_monitor.js"
   },
+
   "action": {
     "default_popup": "activation_menu.html",
     "default_icon": {
-      "16": "icons/icon16.png",
-      "48": "icons/icon48.png",
+      "16":  "icons/icon16.png",
+      "48":  "icons/icon48.png",
       "128": "icons/icon128.png"
     }
   },
+
   "icons": {
-    "16": "icons/icon16.png",
-    "48": "icons/icon48.png",
+    "16":  "icons/icon16.png",
+    "48":  "icons/icon48.png",
     "128": "icons/icon128.png"
-  }
+  },
+
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "job_panel.html",
+        "profile_setup_form.html",
+        "application_history.html",
+        "privacy_policy.html",
+        "theme_styles.css"
+      ],
+      "matches": ["<all_urls>"]
+    }
+  ]
 }
