@@ -253,5 +253,27 @@ function showSummaryOverlay(filled, unknown, aiCount) {
     setTimeout(() => overlay.remove(), 6000);
 }
 
+// Hook form submission to track applications
+document.addEventListener('submit', async (e) => {
+    try {
+        const company = document.title.split('-')[0].trim() || 'Unknown Company';
+        const role = document.title.split('-')[1]?.trim() || 'Job Application';
+        
+        const storageResult = await new Promise(resolve => chrome.storage.local.get(['history'], resolve));
+        const history = storageResult.history || [];
+        
+        history.push({
+            company: company,
+            role: role,
+            date: new Date().toISOString()
+        });
+        
+        await new Promise(resolve => chrome.storage.local.set({ history }, resolve));
+        console.log("[AutoApply] Application recorded in history.");
+    } catch (err) {
+        console.error("[AutoApply] Failed to record history", err);
+    }
+});
+
 // Execute immediately upon injection
 executeAutoFill();

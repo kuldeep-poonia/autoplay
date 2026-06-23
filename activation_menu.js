@@ -42,6 +42,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         chrome.tabs.create({ url: chrome.runtime.getURL("profile_setup_form.html") });
     });
 
+    const btnOpenHistory = document.getElementById('btnOpenHistory');
+    if (btnOpenHistory) {
+        btnOpenHistory.addEventListener('click', () => {
+            chrome.tabs.create({ url: chrome.runtime.getURL("application_history.html") });
+        });
+    }
+
     // 3. Activate auto-fill on current tab (Phase 2 placeholder)
     btnActivate.addEventListener('click', async () => {
         btnActivate.innerText = "Activating...";
