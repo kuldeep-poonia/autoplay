@@ -59,16 +59,18 @@ document.addEventListener('DOMContentLoaded', async () => {
             // For now, we just simulate activation.
             console.log(`Activation triggered for tab: ${tab.url}`);
             
-            // Phase 2 injection logic placeholder:
-            // await chrome.scripting.executeScript({
-            //     target: { tabId: tab.id },
-            //     files: ['form_scanner_injector.js']
-            // });
+            // Inject dependency first, then the scanner
+            await chrome.scripting.executeScript({
+                target: { tabId: tab.id },
+                files: ['form_field_detector.js']
+            });
+            await chrome.scripting.executeScript({
+                target: { tabId: tab.id },
+                files: ['form_scanner_injector.js']
+            });
 
-            setTimeout(() => {
-                btnActivate.innerText = "Activated!";
-                setTimeout(() => window.close(), 1000);
-            }, 500);
+            btnActivate.innerText = "Activated!";
+            setTimeout(() => window.close(), 1500);
 
         } catch (error) {
             console.error("Activation failed:", error);
